@@ -4,6 +4,8 @@ import joblib
 import numpy as np
 import pandas as pd
 import streamlit as st
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # -----------------------------------------------------
 # PAGE CONFIG
@@ -18,7 +20,7 @@ def get_base64_file(path):
     with open(path, "rb") as f:
         return base64.b64encode(f.read()).decode()
 
-loading_gif_base64 = get_base64_file("assets/loading2.gif")
+loading_gif_base64 = get_base64_file(os.path.join(BASE_DIR, "assets", "loading2.gif"))
 
 # -----------------------------------------------------
 # CUSTOM CSS
@@ -298,9 +300,9 @@ st.markdown(CSS, unsafe_allow_html=True)
 # -----------------------------------------------------
 @st.cache_resource
 def load_model():
-    model = joblib.load("bike_model.pkl")
-    columns = joblib.load("feature_columns.pkl")
-    return model, columns
+   model = joblib.load(os.path.join(BASE_DIR, "bike_model.pkl"))
+   columns = joblib.load(os.path.join(BASE_DIR, "feature_columns.pkl"))
+   return model, columns
 
 model, feature_columns = load_model()
 
